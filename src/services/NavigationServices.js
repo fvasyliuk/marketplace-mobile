@@ -60,6 +60,15 @@ class NavigationServices {
             },
         });
     }
+
+    navigateToOwner(id) {
+        this.navigate({
+            routeName: screen.Product, 
+            params: {
+                id,
+            },
+        });
+    }
 }
 
 export default new NavigationServices();
