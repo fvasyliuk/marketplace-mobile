@@ -10,7 +10,7 @@ export function login(body) {
            
             const { user, token } = res.data;            
            
-            await Api.Auth.setToken(token);
+            await Api.Auth.setToken(token);            
             
             dispatch(actions.login.success(user));
         } catch (err) {console.log('ERROR LOGIN')

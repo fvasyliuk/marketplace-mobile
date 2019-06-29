@@ -11,18 +11,16 @@ import { appOperations } from './src/modules/app';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    props.dispatch(appOperations.init());
+    SplashScreen.preventAutoHide();
+  }  
+
+  async componentDidMount() {
+    //await createPersist(store);
+    await store.dispatch(appOperations.init());
+    SplashScreen.hide();
   }
-  
 
   render() {
-    if (this.props.isLoading) {
-      return (
-        <View style={globalStyles.fillAll}> 
-          <Text> Loading ...</Text>
-        </View>
-      )
-    }
     return (  
       <View style={globalStyles.fillAll}>                 
         <Navigator />               

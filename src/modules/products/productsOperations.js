@@ -1,5 +1,6 @@
 import * as actions from './productsActions';
 import { normalize } from 'normalizr'; 
+import { PAGE_SIZE } from './productsConstants';
 import Api, { schemas } from '../../api';
 
 export function fetchLatest() {
@@ -7,11 +8,48 @@ export function fetchLatest() {
         try {
             dispatch(actions.fetchLatest.start());
 
-            const res = await Api.Products.getLatest();
+            const res = await Api.Products.getLatest({ limit: PAGE_SIZE });
 
             const { result, entities } = normalize(res.data, schemas.ProductList);
 
+            if (result.length < PAGE_SIZE) {
+                dispatch(actions.latestHasNoMore);
+            }
+
             dispatch(actions.fetchLatest.success({ result, entities }));
+        } catch (err) {
+            console.log(err);
+            dispatch(actions.fetchLatest.error({ message: err.message }))
+        }
+    }
+};
+
+export function fetchLatestMore() {
+    return async function fetchLatestMoreThunk(dispatch, getState) {
+        const {
+            isLoadingMore,
+            hasNoMore,
+            items,
+        } = getState().products.latest;
+
+        if (hasNoMore || isLoadingMore) {
+            return;
+        }
+        try {
+            dispatch(actions.fetchLatestMore.start());
+
+            const res = await Api.Products.getLatest({
+                 limit: PAGE_SIZE,
+                 offset: items.length, 
+            });
+
+            const { result, entities } = normalize(res.data, schemas.ProductList);
+
+            if (result.length < PAGE_SIZE) {
+                dispatch(actions.latestHasNoMore);
+            }
+           
+            dispatch(actions.fetchLatestMore.success({ result, entities }));            
         } catch (err) {
             console.log(err);
             dispatch(actions.fetchLatest.error({ message: err.message }))
@@ -41,7 +79,7 @@ export function uploadImage(file) {
     return async function uploadImageThunk(dispatch) {
         try {
             dispatch(actions.addImage.start());
-
+            
             const res = await Api.Images.upload(file);
 
             dispatch(actions.addImage.success(res.data));
@@ -102,3 +140,47 @@ export function fetchUser(UserId) {
         }
     }
 };
+
+export function saveProduct(productId) {
+    return async function saveProductThunk(dispatch, getState) {
+        const product = getState().entities.products[productId];
+        const newProduct = { ...product, saved: true};
+        
+        try {
+            const { entities } = normalize(newProduct, schemas.Product);
+
+            dispatch(actions.saveProduct.start({ productId, entities }));
+
+            await Api.Products.save(productId);
+            
+            dispatch(actions.saveProduct.success());
+
+        } catch (err) {
+            console.log(err);
+            //const { entities } = normalize(product, schemas.Product);
+            dispatch(actions.saveProduct.error({ message: err.message, entities }))
+        }               
+    }
+};
+
+export function unsaveProduct(productId) {
+    return async function unsaveProductThunk(dispatch, getState) {
+        const product = getState().entities.products[productId];
+        const newProduct = { ...product, saved: false};
+        try {
+            const { entities } = normalize(newProduct, schemas.Product);
+
+            dispatch(actions.unsaveProduct.start({productId, entities}));
+        
+            await Api.Products.unsave(productId);            
+            
+            dispatch(actions.unsaveProduct.success());
+
+        } catch (err) {
+            console.log(err);
+            //const { entities } = normalize(product, schemas.Product);
+            dispatch(actions.unsaveProduct.error({ message: err.message, entities }))
+        }
+    }
+};
+

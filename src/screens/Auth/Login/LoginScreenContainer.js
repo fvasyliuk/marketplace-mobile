@@ -1,7 +1,8 @@
-import { compose, withHandlers, hoistStatics, withState, withProps } from 'recompose';
+import { compose, withHandlers, hoistStatics, withState, withProps, lifecycle } from 'recompose';
 import { connect } from 'react-redux';
 import { authOperations } from '../../../modules/auth';
 import { NavigationServices } from '../../../services';
+import screen from '../../../navigation/screens';
 import LoginScreenView from './LoginScreenView';
 import * as Yup from 'yup';
 
@@ -32,23 +33,20 @@ const enhancer = compose(
               .required('Required'),
           }),
     })),
-    withState('isFocus', 'setFocus', false),
+    withState('isFocus', 'setIsFocus', {}),
     withHandlers({
         onSubmit: (props) => async (value) => {
             try {
                 await props.login(value);
-                NavigationServices.navigateToApp();
+                props.navigation.navigate({routeName: screen.MainApp});
             } catch (err) {
                 console.log(err);
             }
         },
-        onEmailFocus: (props) => () => {
-            props.setFocus(true);
-        },
-        onPasswordFocus: (props) => () => {
-            props.setFocus(true);
-        },
-    }),
+        handleFocus: (props) => (value) => {            
+            props.setIsFocus({[value]: true});
+        }
+    }),    
 );
 
 export default hoistStatics(enhancer)(LoginScreenView);

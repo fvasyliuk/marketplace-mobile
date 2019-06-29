@@ -13,6 +13,7 @@ const urls = {
     products: `${baseUrl}/products`,
     users: `${baseUrl}/users`,
     chats: `${baseUrl}/chats`,
+    saved: `${baseUrl}/products/saved`,
 };
 
 export const Auth = {
@@ -26,16 +27,15 @@ export const Auth = {
         this._token = token;
 
         this._storeToken(token);
-        console.log('set token', token)
-        this._setTokenToAxios(token);
+        
+        this._setTokenToAxios(token);        
     },
 
-    init() {
+    async init() {
         try {
-            const token = SecureStore.getItemAsync('token');
-            this._token = token;
-            
-            this._setTokenToAxios(this._token);
+            const token = await SecureStore.getItemAsync('token');
+            this._token = token;           
+            this._setTokenToAxios(token);
         } catch (err) {
             console.error(err);
         }
@@ -49,13 +49,12 @@ export const Auth = {
         return axios.post(urls.register, body)       
     },
 
-    logout() {
+    async logout() {
         this._token = null;
         try {
-            SecureStore.deleteItemAsync('token')
+            await SecureStore.deleteItemAsync('token');
         } catch (err) {
-            console.error(err);
-        }
+            console.error(err);        }
         this._setTokenToAxios(null);
     },
     _storeToken(token) {
@@ -65,36 +64,56 @@ export const Auth = {
             console.error(err);
         } 
     },
-    _setTokenToAxios(token) {
-        axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+    _setTokenToAxios(token) {        
+        axios.defaults.headers.common.Authorization = `Bearer ${token}`;          
     }
 };
 
 export const Viewer = {
-    get() {
-        return axios.get(urls.getViewer);
+    async get() {      
+        await SecureStore.getItemAsync('token')
+        return axios.get(urls.getViewer)
     }
 };
 
 export const Products = {
-    getLatest() {
-        return axios.get(urls.productsLatest)
+    getLatest({ offset = 0, limit = 20 }) {
+        return axios.get(urls.productsLatest, {
+            params: {
+                offset,
+                limit,
+            },
+        });
     },
     add(body) {
-        return axios.post(urls.add, body)
+        return axios.post(urls.add, body);
     },
     get(id) {
-        return axios.get(`${urls.products}/${id}`)
+        return axios.get(`${urls.products}/${id}`);
     },
     getUserProducts(id) {
-        return axios.get(`${urls.users}/${id}/products`)
+        return axios.get(`${urls.users}/${id}/products`);
     },
+    save(productId) {
+        return axios.post(`${urls.products}/${productId}/save`)
+    },
+    unsave(productId) {
+        return axios.post(`${urls.products}/${productId}/unsave`)
+    },
+    getSaved() {
+        return axios.get(urls.saved);
+    }
 };
 
 export const Images = {
     upload(file) {
+        console.log('file', file);
         const fd = new FormData();
-        fd.append('image', file);
+        fd.append('image', {
+            uri: file.uri,
+            type: 'image/jpeg',
+            name: 'photo', 
+        });
         return axios.post(urls.image, fd);
     }
 }

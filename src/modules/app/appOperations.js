@@ -9,9 +9,9 @@ export function init() {
         try {
             dispatch(actions.initialization.start());            
 
-            Api.init()
-
-            await dispatch(viewerOperations.fetchViewer())
+            await Api.init();
+            
+            await dispatch(viewerOperations.fetchViewer());
 
             dispatch(actions.initialization.success());
 

@@ -9,5 +9,7 @@ const routes = {
     [screens.MainApp]: AppTabNavigation,
 }
 
-export default createSwitchNavigator(routes, {});
+export default createSwitchNavigator(routes, {
+    initialRouteName: screens.MainApp,
+});
 

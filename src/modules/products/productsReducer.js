@@ -7,6 +7,10 @@ const INITIAL_STATE = {
         isLoading: false,
         isError: false,
         error: null,
+        isLoadingMore: false,
+        isErrorMore: false,
+        errorMore: null,
+        hasNoMore: false,
     },
     product: {        
         isLoading: false,
@@ -41,6 +45,7 @@ export default handleActions({
             isLoading: true,
             error: null,
             isError: false,
+            hasNoMore: false,
         }              
     }),
     [actions.fetchLatest.success]: (state, actions) => ({
@@ -59,6 +64,41 @@ export default handleActions({
             error: actions.payload,
             isError: true,
         }        
+    }),
+    //latest more
+    [actions.fetchLatestMore.start]: (state) => ({
+        ...state,
+        latest: {
+            ...state.latest,
+            isLoadingMore: true,
+            errorMore: null,
+            isErrorMore: false,
+        }              
+    }),
+    [actions.fetchLatestMore.success]: (state, actions) => ({
+        ...state,
+        latest: {
+            ...state.latest,
+            items: state.latest.items.concat(actions.payload.result),
+            isLoadingMore: false,
+        },               
+    }),
+    [actions.fetchLatestMore.error]: (state, actions) => ({
+        ...state,
+        latest: {
+            ...state.latest,
+            isLoadingMore: false,
+            errorMore: actions.payload,
+            isErrorMore: true,
+        }        
+    }),
+    // latest has no more
+    [actions.latestHasNoMore]: (state) => ({
+        ...state,
+        latest: {
+            ...state.latest,
+            hasNoMore: true,
+        },        
     }),
     //add product
     [actions.addProduct.start]: (state) => ({

@@ -3,9 +3,9 @@ import { colors }from '../../../styles';
 
 const styles = StyleSheet.create({
     container: {
-        justifyContent: 'space-between',
-        alignItems: 'center',
+        justifyContent: 'space-between',      
         flex: 1,
+        backgroundColor: '#F8F9FB',
     },
     header: {
         backgroundColor: colors.white,
@@ -24,10 +24,32 @@ const styles = StyleSheet.create({
         height: 75,
         width: '100%',
     },
-    botoomContainer: {
-        height: 75,
-        backgroundColor: colors.primary,
-        width: '100%',
+    botoomWraper: {       
+        width: '100%',        
+        height: 75,        
+    },
+    bottomContainer: {
+        flexDirection: 'row',
+        width: '100%', 
+        padding: 8,
+        backgroundColor: '#FFFFFF',
+        justifyContent: 'space-between', 
+        alignItems: 'center',     
+    },
+    textBottomContainer: {
+       flexDirection: 'row',
+    },
+    textBottom: {
+        marginRight: 4,
+        color: colors.borderColor,
+    },
+    textBottomRegister: {
+        textTransform: 'uppercase',
+        color: colors.primary,
+        fontWeight: '500',
+    },
+    loginButton: {
+        backgroundColor: colors.primary,        
     },
     emailInput: {
         width: '100%',
@@ -44,9 +66,8 @@ const styles = StyleSheet.create({
     },
     emailLabel: {
         color: colors.primary,
-    },
-    emailFocus: {
-        borderColor: colors.primary,
+        marginTop: 8,
+        fontWeight: '500',
     },
     passwordInput: {
         width: '100%',
@@ -63,10 +84,29 @@ const styles = StyleSheet.create({
     },
     passwordLabel: {
         color: colors.primary,
+        marginTop: 16,
+        fontWeight: '500',
+    },    
+    forgotContainer: {
+        paddingHorizontal: 16,
+        flexDirection: 'row-reverse',
+        justifyContent: 'space-between',
+        marginTop: 4,
     },
-    passwordFocus: {
+    forgotText: {
+        color: colors.primary,
+    },
+    inputFocus: {
         borderColor: colors.primary,
+        borderWidth: 2,
     },
+    errorBorder: {
+        borderColor: colors.loginScreen.errorBorder,
+        borderWidth: 2,
+    },
+    errorText: {
+        color: colors.loginScreen.errorText,
+    }
 });
 
 export default styles;
