@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     },
     header: {
         height: 140,
-        
+                 
         backgroundColor: colors.white,
         ...Platform.select({
             android: {
@@ -31,9 +31,6 @@ const styles = StyleSheet.create({
     },
     headerRight: {
         marginRight: 16,
-    },
-    headerLeft: {
-        marginLeft: 16,
     },
 });
 

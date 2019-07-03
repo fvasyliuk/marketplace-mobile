@@ -5,6 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 import NewItemScreenView from './NewItemScreenView';
 import { productsOperations } from '../../modules/products';
 import { withFormik } from 'formik';
+import { NavigationServices } from '../../services';
 import { newItemValidationSchema } from '../../validationSchemas';
 
 
@@ -94,7 +95,7 @@ const enhance = compose(
                
             try {
                 const linkID = await addProduct(body);                
-                //NavigationServices.navigateToProduct(linkID)
+                NavigationServices.navigateToProduct(linkID)
             } catch (err) {
                 console.log(err);
             }  

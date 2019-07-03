@@ -34,7 +34,9 @@ const styles = StyleSheet.create({
     productDescription: {
         paddingVertical: 8,
     },
-    userInfo: {     
+    userInfo: {   
+        
+        
     },
     top: {
         position: "relative", 

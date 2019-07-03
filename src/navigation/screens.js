@@ -2,6 +2,7 @@ import mirror from 'mirror-to-object-pairs';;
 
 export default mirror([
     'NewItemModal',
+    'FiltersModal',
     'Main',
     'App',
 
@@ -23,10 +24,13 @@ export default mirror([
 
     'Browse',
     'Product',
+    'Owner',
+    'Search',
 
     'Saved',
     'Inbox',
     'Home',    
     'Location',
     'NewItemScreen',
+    'FiltersScreen',
 ])

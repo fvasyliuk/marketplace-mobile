@@ -3,9 +3,9 @@ import { colors }from '../../styles';
 
 const styles = StyleSheet.create({
     container: {
-        marginLeft: 8,
         flex: 1,
-        height: '80%',  
+        marginLeft: 8,
+        height: 44,  
         borderRadius: 5,      
         borderWidth: StyleSheet.hairlineWidth,
         borderColor: colors.borderColor, 

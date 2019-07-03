@@ -2,9 +2,11 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { Avatar, Touchable } from '../../../../components';
 import s from './styles';
+import { NavigationServices } from '../../../../services';
 
 function OwnerInfo({
     owner,
+    handleNavigate,
 }) {
     return (
         <View style={s.container}> 
@@ -17,8 +19,12 @@ function OwnerInfo({
                 <Text style={s.fullName}>
                     {owner.fullName}
                 </Text>
-                <Touchable useOpacityAndroid onPress={() => {}}>
-                    <Text style={s.otherPosts}>
+                <Touchable 
+                    style={s.otherPostsButton} 
+                    useOpacityAndroid 
+                    onPress={handleNavigate}
+                >
+                    <Text style={s.otherPosts} numberOfLines={1}>
                         See other posts from {owner.fullName}
                     </Text>
                 </Touchable>

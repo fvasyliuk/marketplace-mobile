@@ -1,12 +1,13 @@
 import React from 'react';
 import T from 'prop-types';
-import { View, Text, TouchableOpacity, TextInput, Image, ActivityIndicator } from 'react-native';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'
-import { Formik } from 'formik';
+import { View, Text, TouchableOpacity, TextInput, Image, ActivityIndicator, ScrollView } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import { Ionicons } from '@expo/vector-icons';
 import { NavigationServices } from '../../services';
 import ActionSheet from 'react-native-actionsheet';
-import { Price, Location, AddPhoto } from './components';
+import { Price, Location } from '../../components';
+import { AddPhoto } from './components';
+import { colors } from '../../styles';
 import s from './styles';
 
 function NewItemScreen({
@@ -25,7 +26,11 @@ function NewItemScreen({
 }) {
     return (                     
         <KeyboardAwareScrollView 
-            style={s.container}
+            resetScrollToCoords={{ x: 0, y: 0 }}
+            contentContainerStyle={{flexGrow: 1,}}
+            style={{flex: 1}}            
+            extraHeight={250}
+            extraScrollHeight={100}
         >
             <View style={s.container}> 
                 <Text style={s.titleText}>
@@ -101,7 +106,7 @@ function NewItemScreen({
                 </View>               
                 <Text style={s.label} >
                     Location
-                </Text>                
+                </Text>                               
                 <Location 
                     onPress={() => NavigationServices.navigateToLocation({
                         valueLocation: values.location,
@@ -128,7 +133,7 @@ function NewItemScreen({
 NewItemScreen.navigationOptions = ({ navigation }) => ({
     headerLeft: (
         <TouchableOpacity onPress={() => {NavigationServices.goBack()}} style={s.headerLeft} >
-            <Ionicons name="ios-close" size={42} />
+            <Ionicons name="ios-close" size={42} color={colors.primary} />
         </TouchableOpacity>
     ),
     headerRight: (

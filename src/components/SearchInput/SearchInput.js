@@ -1,16 +1,18 @@
 import React from 'react';
 import { View, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { compose, withHandlers, withState } from 'recompose';
+import { compose, withHandlers, withState, lifecycle } from 'recompose';
 import s from './styles';
 import { colors } from '../../styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-function SearchInput({
-    onSearch,
-    search,
+function SearchInput({    
+    valueSearch,
     onChangeText,
-}) {
+    onSearch, 
+    handleFocusSearch,
+    refSearch 
+}) {   
     return(    
         <View style={s.container}>
             <TouchableOpacity onPress={onSearch}>
@@ -21,8 +23,15 @@ function SearchInput({
                     style={s.leftIcon}
                 />
             </TouchableOpacity>
-            <TextInput 
-                value={search}
+            <TextInput
+                ref={refSearch} 
+                onFocus={() => {
+                    handleFocusSearch(true)
+                }} 
+                onBlur={() => {
+                    handleFocusSearch(false)
+                }}        
+                value={valueSearch}
                 onChangeText={onChangeText}
                 style={s.input}
                 placeholder="hoodie"
@@ -32,14 +41,17 @@ function SearchInput({
 }
 
 const enhancer = compose(
-    withState('search', 'setSearch', ''),
+    withState('valueSearch', 'setValueSearch', ''),
     withHandlers({
-       onSearch: (props) => () => {
-
-       },
-       onChangeText: (props) => (value) => {
-           props.setSearch(value)
-       }
+        onChangeText: (props) => (val) => {
+            props.setValueSearch(val);  
+            props.handleChange(val);                      
+        },
+    }),
+    lifecycle({
+        componentDidMount() {
+            this.props.setValueSearch(this.props.value)
+        }
     }),
 );
 

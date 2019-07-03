@@ -29,15 +29,19 @@ class NavigationServices {
     }
 
     navigateToProfile() {
-        this.navigate({routeName: screen.Profile});
+        this.navigate({ routeName: screen.Profile });
     }
-    
+        
     navigateToApp() {
         this.navigate({routeName: screen.MainApp});
     }
 
     navigateToNewItemModal() {
         this.navigate({routeName: screen.NewItemModal});
+    }
+
+    navigateToFiltersModal(params) {
+        this.navigate({routeName: screen.FiltersModal, params});
     }
 
     goBack() {
@@ -52,6 +56,10 @@ class NavigationServices {
         this.navigate({routeName: screen.Location, params: {...params}});
     }
 
+    navigateToBrowse() {
+        this.navigate({routeName: screen.Browse});
+    }
+
     navigateToProduct(id) {
         this.navigate({
             routeName: screen.Product, 
@@ -63,9 +71,18 @@ class NavigationServices {
 
     navigateToOwner(id) {
         this.navigate({
-            routeName: screen.Product, 
+            routeName: screen.Owner, 
             params: {
                 id,
+            },
+        });
+    }
+
+    navigateToSearch(query) {
+        this.navigate({
+            routeName: screen.Search, 
+            params: {
+                query,
             },
         });
     }

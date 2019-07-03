@@ -1,4 +1,4 @@
-import ProfileScreen from './ProfileScreenView';
+import ProfileBackScreen from './ProfileBackScreenView';
 import { compose, hoistStatics, lifecycle, withHandlers } from 'recompose';
 import { connect} from 'react-redux';
 import { productsSelectors, productsOperations } from '../../modules/products';
@@ -30,12 +30,13 @@ const enhancer = compose(
         componentDidMount() {
             if (!this.props.productsList) {
                 this.props.fetchUserProducts(this.props.viewer.id);
-            }                 
+            }   
+                       
             this.props.navigation.setParams({
-                viewer: this.props.viewer,                 
+                viewer: this.props.viewer,                             
             })            
         }, 
     }),
 );
 
-export default hoistStatics(enhancer)(ProfileScreen);
+export default hoistStatics(enhancer)(ProfileBackScreen);

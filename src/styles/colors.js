@@ -3,7 +3,7 @@ export default {
     primary: '#349A89',
     borderColor: '#C0C3CE',
     backgroundColor: '#F8F9FB',
-    mainText: '#07133D',
+    mainText: '#07133D',    
     errorBorder: '#FF4060',
     tabNavigation: {
         icon: '#C0C3CE',

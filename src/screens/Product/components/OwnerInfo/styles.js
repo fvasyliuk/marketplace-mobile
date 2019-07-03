@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
         borderColor: colors.borderColor,               
     },
     ownerText: {
+        flex: 1,
         marginLeft: 16,
         fontSize: 18,
         justifyContent: 'center',
@@ -19,7 +20,8 @@ const styles = StyleSheet.create({
     },
     otherPosts: {
         color: colors.ProductScreen.navigateText,
-        fontSize: 18,
+        fontSize: 18, 
+        width: '100%',       
     }
 });
 

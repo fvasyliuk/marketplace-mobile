@@ -39,7 +39,7 @@ ProfileScreen.navigationOptions = ({ navigation }) => {
         };
     };
 
-    const {viewer} = navigation.state.params;
+    const { viewer, backProductId } = navigation.state.params;
 
     return {        
         headerTitle: (
@@ -59,6 +59,15 @@ ProfileScreen.navigationOptions = ({ navigation }) => {
                 <Feather name="settings" size={32}/>
             </Touchable>
         ),
+        headerLeft: (
+            <Touchable 
+                useOpacityAndroid
+                onPress={() => {NavigationServices.navigateToProduct(backProductId)}}
+                style={s.headerLeft}
+            >
+                <Ionicons name="ios-arrow-back" size={32}/>
+            </Touchable>
+        )
     };
 };
 

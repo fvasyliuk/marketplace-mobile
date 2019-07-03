@@ -184,3 +184,59 @@ export function unsaveProduct(productId) {
     }
 };
 
+export function searchProducts(queryParams) {
+    return async function searchProductThunk(dispatch) {
+        try {
+            dispatch(actions.fetchLatest.start());
+
+            const res = await Api.Products.search(queryParams);
+            
+            const { result, entities } = normalize(res.data, schemas.ProductList);
+
+            if (result.length < PAGE_SIZE) {
+                dispatch(actions.latestHasNoMore);
+            }
+
+            dispatch(actions.fetchLatest.success({ result, entities }));
+            
+        } catch (err) {
+            console.log(err);
+            dispatch(actions.fetchLatest.error({ message: err.message }))
+        }
+    }
+};
+
+export function searchProductsMore(params) {
+    return async function searchProductsMoreThunk(dispatch, getState) {
+        const {
+            isLoadingMore,
+            hasNoMore,
+            items,
+        } = getState().products.latest;
+
+        if (hasNoMore || isLoadingMore) {
+            return;
+        }
+        try {
+            dispatch(actions.fetchLatestMore.start());            
+            const res = await Api.Products.search({
+                ...params,
+                limit: PAGE_SIZE,
+                offset: items.length, 
+            });
+            
+            const { result, entities } = normalize(res.data, schemas.ProductList);
+
+            if (result.length < PAGE_SIZE) {
+                dispatch(actions.latestHasNoMore);
+            }
+           
+            dispatch(actions.fetchLatestMore.success({ result, entities }));            
+        } catch (err) {
+            console.log(err);
+            dispatch(actions.fetchLatestMore.error({ message: err.message }))
+        }
+    }
+};
+
+

@@ -14,6 +14,7 @@ const urls = {
     users: `${baseUrl}/users`,
     chats: `${baseUrl}/chats`,
     saved: `${baseUrl}/products/saved`,
+    search: `${baseUrl}/products/search`,
 };
 
 export const Auth = {
@@ -102,7 +103,17 @@ export const Products = {
     },
     getSaved() {
         return axios.get(urls.saved);
-    }
+    },
+    search(params) {
+        return axios.get(
+            urls.search, 
+            { params: {                
+                offset: 0,
+                limit: 20,
+                ...params
+            }}
+        );
+    },
 };
 
 export const Images = {

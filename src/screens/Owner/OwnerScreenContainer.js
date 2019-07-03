@@ -1,14 +1,15 @@
-import ProfileScreen from './ProfileScreenView';
+import OwnerScreen from './OwnerScreenView';
 import { compose, hoistStatics, lifecycle, withHandlers } from 'recompose';
 import { connect} from 'react-redux';
 import { productsSelectors, productsOperations } from '../../modules/products';
-import { viewerSelectors } from '../../modules/viewer';
 
 
-function mapStateToProps(state,) {
+function mapStateToProps(state, { navigation }) {
+    const ownerId = navigation.state.params.id;
     return {
-        productsList: productsSelectors.getUserProducts(state, state.viewer.user.id),
-        viewer: viewerSelectors.getUser(state),
+        ownerId,
+        productsList: productsSelectors.getUserProducts(state, ownerId),        
+        owner: productsSelectors.getUser(state, ownerId),
         isLoading: state.products.usersProducts.isLoading,
     };
 };
@@ -29,13 +30,18 @@ const enhancer = compose(
     lifecycle({
         componentDidMount() {
             if (!this.props.productsList) {
-                this.props.fetchUserProducts(this.props.viewer.id);
-            }                 
+                this.props.fetchUserProducts(this.props.ownerId);
+            } 
+            if (!this.props.owner) {
+                this.props.fetchUser(this.props.ownerId);
+            }
+                
+
             this.props.navigation.setParams({
-                viewer: this.props.viewer,                 
+                owner: this.props.owner, 
             })            
         }, 
     }),
 );
 
-export default hoistStatics(enhancer)(ProfileScreen);
+export default hoistStatics(enhancer)(OwnerScreen);

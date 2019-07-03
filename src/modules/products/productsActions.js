@@ -10,3 +10,5 @@ export const fetchUserProducts = createAsyncActions('products/FETCH_USER_PRODUCT
 export const fetchUser = createAsyncActions('products/FETCH_User');
 export const saveProduct = createAsyncActions('products/SAVE');
 export const unsaveProduct = createAsyncActions('products/UNSAVE');
+export const searchProducts = createAsyncActions('products/SEARCH');
+export const searchProductsMore = createAsyncActions('products/SEARCH_MORE');

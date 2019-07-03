@@ -1,5 +1,5 @@
 import { StyleSheet, Platform } from 'react-native';
-import { colors }from '../../styles';
+import { colors }from '../../../../styles';
 
 const styles = StyleSheet.create({
     container: { 
@@ -31,13 +31,9 @@ const styles = StyleSheet.create({
     headerRight: {
         marginHorizontal: 16,
     },
-    searchContainer: {
-        flex: 1,
-        position: 'absolute',
-        zIndex: 200,
-        backgroundColor: colors.backgroundColor,
-        height: '100%',
-        width: '100%',
+    headerRightText: {
+        fontSize: 18,
+        color: colors.primary,
     },
 });
 

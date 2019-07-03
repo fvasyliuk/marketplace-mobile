@@ -18,8 +18,7 @@ const styles = StyleSheet.create({
             },
         }),
 
-        borderBottomWidth: StyleSheet.hairlineWidth,   
-        borderColor: colors.borderColor,     
+        borderBottomWidth: StyleSheet.hairlineWidth,        
     },
     headerContainer: {
         flexDirection: 'row',
@@ -30,14 +29,6 @@ const styles = StyleSheet.create({
     },
     headerRight: {
         marginHorizontal: 16,
-    },
-    searchContainer: {
-        flex: 1,
-        position: 'absolute',
-        zIndex: 200,
-        backgroundColor: colors.backgroundColor,
-        height: '100%',
-        width: '100%',
     },
 });
 

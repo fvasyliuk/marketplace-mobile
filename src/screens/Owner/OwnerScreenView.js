@@ -2,12 +2,10 @@ import React from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 import s from './styles';
 import { ProductList, Avatar, Touchable } from '../../components';
-import { Feather, Ionicons } from '@expo/vector-icons';
-import { NavigationServices } from '../../services';
-import { colors } from '../../styles';
 
 
-function ProfileScreen({
+
+function OwnerScreen({
     productsList,
     isLoading,
     fetchUserProducts,
@@ -25,12 +23,9 @@ function ProfileScreen({
     )
 };
 
-ProfileScreen.navigationOptions = ({ navigation }) => {   
-    
-    if (
-        !navigation.state.params
-        || !navigation.state.params.viewer
-    ) {
+OwnerScreen.navigationOptions = ({ navigation }) => {    
+    const {owner} = navigation.state.params;
+    if (!owner) {
         return {
             headerTitle: (
                 <ActivityIndicator size="small" />
@@ -38,28 +33,18 @@ ProfileScreen.navigationOptions = ({ navigation }) => {
             headerStyle: s.header,
         };
     };
-
-    const {viewer} = navigation.state.params;
-
+        
     return {        
         headerTitle: (
             <View style={s.headerTitleOwner}>
-                <Avatar name={viewer.fullName} source={viewer.avatar} size={92} />
-                <Text style={s.headerTitleOwnerText}>{viewer.fullName}</Text>
+                <Avatar name={owner.fullName} source={owner.avatar} size={92} />
+                <Text style={s.headerTitleOwnerText}>{owner.fullName}</Text>
             </View>
         ),
         headerTitleStyle: s.headerTitle,
         headerStyle: s.header,
-        headerRight: (
-            <Touchable 
-                useOpacityAndroid
-                onPress={() => {NavigationServices.navigateToSettings()}}
-                style={s.headerRight}
-            >
-                <Feather name="settings" size={32}/>
-            </Touchable>
-        ),
+
     };
 };
 
-export default ProfileScreen;
+export default OwnerScreen;
